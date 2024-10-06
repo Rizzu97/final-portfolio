@@ -140,7 +140,7 @@ export const DATA = {
         "Tailwind CSS",
       ],
       projectUrl: "https://www.colorami.space/storelocator",
-      video: "video/Storelocator.mp4",
+      video: "video/StoreLocator.mp4",
     },
     {
       title: "ExagonPlus - White Label Business Management SaaS",
