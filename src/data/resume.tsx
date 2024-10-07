@@ -209,7 +209,6 @@ export const DATA = {
         "iOS",
         "Android",
         "Educational Data Management",
-        "Real-time Synchronization",
       ],
       projectUrl:
         "https://play.google.com/store/apps/details?id=com.axiositalia.re.teachers",
