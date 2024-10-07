@@ -204,7 +204,6 @@ export const DATA = {
         "Developed Axios RE, a comprehensive school management application for Italian national schools. This Flutter-based mobile app revolutionizes how teachers, students, and parents interact with the educational system. Key features include digital class registers, grade management, attendance tracking, and parent-teacher communication channels. Leveraging Firebase for real-time data synchronization, the app significantly enhances the efficiency of administrative tasks in schools, providing instant updates and improving overall educational workflow. Implemented advanced data protection measures using Firebase Security Rules to ensure compliance with Italian educational data privacy regulations.",
       technologies: [
         "Flutter",
-        "Dart",
         "Firebase",
         "iOS",
         "Android",
