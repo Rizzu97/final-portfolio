@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { useRef, useState } from "react";
+import Image from "next/image";
 
 interface Props {
   title: string;
@@ -18,7 +19,7 @@ interface Props {
   dates: string;
   tags: readonly string[];
   link?: string;
-  video: string;
+  video?: string;
   projectUrl: string;
   links?: readonly {
     icon: React.ReactNode;
@@ -26,6 +27,7 @@ interface Props {
     href: string;
   }[];
   className?: string;
+  projectImage?: string;
 }
 
 export function ProjectCard({
@@ -39,19 +41,20 @@ export function ProjectCard({
   projectUrl,
   links,
   className,
+  projectImage,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    if (videoRef.current) {
+    if (videoRef.current && video) {
       videoRef.current.play();
     }
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    if (videoRef.current) {
+    if (videoRef.current && video) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
@@ -67,29 +70,39 @@ export function ProjectCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative h-48 w-fulloverflow-hidden">
+      <div className="relative h-48 w-full overflow-hidden">
         <div className="relative h-48 w-full overflow-hidden bg-white dark:bg-black">
-          <video
-            ref={videoRef}
-            src={video}
-            loop
-            muted
-            playsInline
-            className={cn(
-              "absolute top-1/2 left-1/2 w-full",
-              "transform -translate-x-1/2 -translate-y-1/2",
-              "transition-transform duration-300 ease-out",
-              isHovered && "scale-105"
-            )}
-            style={{
-              height: "auto",
-              minHeight: "100%",
-              maxHeight: "none",
-              objectFit: "cover",
-            }}
-          >
-            Your browser does not support the video tag.
-          </video>
+          {video ? (
+            <video
+              ref={videoRef}
+              src={video}
+              loop
+              muted
+              playsInline
+              className={cn(
+                "absolute top-1/2 left-1/2 w-full h-full",
+                "transform -translate-x-1/2 -translate-y-1/2",
+                "transition-transform duration-300 ease-out",
+                isHovered && "scale-105"
+              )}
+              style={{
+                objectFit: "contain",
+              }}
+            >
+              Your browser does not support the video tag.
+            </video>
+          ) : projectImage ? (
+            <Image
+              src={projectImage}
+              alt={title}
+              layout="fill"
+              objectFit="contain"
+              className={cn(
+                "transition-transform duration-300 ease-out",
+                isHovered && "scale-105"
+              )}
+            />
+          ) : null}
         </div>
       </div>
       <Link

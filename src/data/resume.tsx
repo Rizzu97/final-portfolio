@@ -176,7 +176,7 @@ export const DATA = {
       ],
       projectUrl:
         "https://management.ambrosetti.eu/it/pages/index?view=download-app",
-      video: "video/Ambrosetti.mp4",
+      projectImage: "/image/AmbrosettiForum.jpg",
     },
     {
       title: "RotarApp - Rotary Club Mobile Application",
@@ -194,7 +194,7 @@ export const DATA = {
         "Secure Data Management",
       ],
       projectUrl: "https://www.rotarapp.net/",
-      video: "video/RotarApp.mp4",
+      projectImage: "/image/RotarApp.png",
     },
     {
       title: "Axios RE - School Management App",
@@ -211,7 +211,7 @@ export const DATA = {
       ],
       projectUrl:
         "https://play.google.com/store/apps/details?id=com.axiositalia.re.teachers",
-      video: "video/AxiosRE.mp4",
+      projectImage: "/image/AxiosDocenti.jpg",
     },
   ],
   hackathons: [

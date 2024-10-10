@@ -160,7 +160,10 @@ export default function Page() {
                   dates={project.dates}
                   tags={project.technologies}
                   projectUrl={project.projectUrl}
-                  video={project.video}
+                  video={(project as any).video as string | undefined}
+                  projectImage={
+                    (project as any).projectImage as string | undefined
+                  }
                 />
               </BlurFade>
             ))}
