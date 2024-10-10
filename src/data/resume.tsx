@@ -194,7 +194,7 @@ export const DATA = {
         "Secure Data Management",
       ],
       projectUrl: "https://www.rotarapp.net/",
-      projectImage: "/image/RotarApp.png",
+      projectImage: "/image/Rotarapp.png",
     },
     {
       title: "Axios RE - School Management App",
