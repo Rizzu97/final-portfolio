@@ -187,12 +187,11 @@ export default function Page() {
               transition={{ duration: 0.8 }}
               className="max-w-3xl"
             >
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">
-                {" "}
-                {/* Ridotto size e margin */}
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3">
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
-                  Expert Guidance &
-                  <span className="block mt-1">Development Solutions</span>
+                  Expert Guidance
+                  <span className="block mt-2">& Development</span>{" "}
+                  {/* Modificato il testo e la struttura */}
                 </span>
               </h2>
               <p className="text-muted-foreground text-base">
@@ -204,78 +203,66 @@ export default function Page() {
           </motion.div>
         </div>
 
-        {/* Cards container con scrolling ottimizzato e spazi ridotti */}
+        {/* Cards container ottimizzato per mobile */}
         <div className="container relative max-w-5xl mx-auto">
-          {/* Cards con spacing ridotto */}
-          <div className="relative space-y-[20vh]">
-            {" "}
-            {/* Ridotto da 30vh */}
+          <div className="relative space-y-[15vh] md:space-y-[20vh]">
             {DATA.services.map((service, index) => (
-              <div key={service.title} className="h-[50vh]">
-                {" "}
-                {/* Ridotto da 60vh */}
-                <div className="sticky top-20">
-                  {" "}
-                  {/* Ridotto da top-24 */}
+              <div key={service.title} className="min-h-[60vh] md:h-[50vh]">
+                <div className="sticky top-16 md:top-20">
                   <motion.div
                     initial={{ opacity: 0 }}
-                    whileInView={{
-                      opacity: 1,
-                      scale: 1,
-                    }}
-                    viewport={{
-                      margin: "-5% 0px", // Ridotto da -10%
-                      amount: 0.6,
-                    }}
-                    transition={{
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="group relative"
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: false, margin: "-10% 0px" }}
+                    transition={{ duration: 0.3 }}
+                    className="group relative px-2 sm:px-4 md:px-0" // Ridotto padding su mobile molto piccolo
                   >
-                    {/* Glow effect migliorato */}
+                    {/* Glow effect che si mantiene nella viewport */}
                     <motion.div
                       className="absolute -inset-[2px] bg-gradient-to-r from-primary/30 via-primary/50 to-primary/30 rounded-2xl blur-md"
+                      initial={{ opacity: 0 }}
                       whileInView={{
-                        opacity: [0, 0.6, 0],
-                        transition: {
-                          duration: 1.5,
-                          ease: "easeInOut",
-                          times: [0, 0.5, 1],
-                        },
+                        opacity: [0, 0.6, 0.4, 0.6],
+                      }}
+                      transition={{
+                        duration: 2,
+                        ease: "easeInOut",
+                        repeat: Infinity,
+                        repeatType: "reverse",
                       }}
                       viewport={{
-                        margin: "-15% 0px",
-                        amount: 0.6,
+                        once: false,
+                        margin: "-20% 0px",
                       }}
                     />
                     <div
                       className={cn(
-                        "relative backdrop-blur-sm border rounded-2xl p-8 md:p-10",
+                        "relative backdrop-blur-sm border rounded-2xl p-4 sm:p-6 md:p-10", // Ridotto padding su mobile
                         "bg-card/95 transition-all duration-500",
                         "group-hover:border-primary/50 border-border/50",
-                        "shadow-lg shadow-primary/0 group-hover:shadow-primary/5",
-                        "transform transition-transform duration-300" // Aggiunto per una transizione più fluida
+                        "shadow-lg shadow-primary/0 group-hover:shadow-primary/5"
                       )}
                     >
-                      <div className="flex flex-col md:flex-row items-start gap-12 md:gap-16">
-                        <div className="w-full md:w-1/2 space-y-6">
-                          <div className="space-y-6">
-                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/[0.08] text-primary">
-                              <service.icon className="w-5 h-5" />
-                              <span className="text-sm font-medium">
+                      <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8 md:gap-16">
+                        {" "}
+                        {/* Ridotto gap su mobile */}
+                        <div className="w-full md:w-1/2 space-y-4 sm:space-y-6">
+                          {" "}
+                          {/* Ridotto spacing su mobile */}
+                          <div className="space-y-4 sm:space-y-6">
+                            <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/[0.08] text-primary">
+                              <service.icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                              <span className="text-xs sm:text-sm font-medium">
                                 {service.title}
                               </span>
                             </div>
                             <div className="space-y-2">
-                              <p className="text-base text-muted-foreground">
+                              <p className="text-sm sm:text-base text-muted-foreground">
                                 {service.description}
                               </p>
                             </div>
                           </div>
-                          {/* CTA modificato per WhatsApp */}
                           <Button
-                            className="w-full md:w-auto relative overflow-hidden group/button"
+                            className="w-full md:w-auto relative overflow-hidden group/button text-xs sm:text-sm" // Ridotto font su mobile
                             asChild
                           >
                             <a
@@ -289,7 +276,7 @@ export default function Page() {
                             >
                               Contact on WhatsApp
                               <motion.div
-                                className="relative w-4 h-4"
+                                className="relative w-3 h-3 sm:w-4 sm:h-4"
                                 animate={{ x: [0, 4, 0] }}
                                 transition={{ repeat: Infinity, duration: 1.5 }}
                               >
@@ -299,19 +286,69 @@ export default function Page() {
                           </Button>
                         </div>
                         <div className="w-full md:w-1/2">
-                          <ul className="grid gap-4">
+                          <ul className="grid gap-3 sm:gap-4">
+                            {" "}
+                            {/* Ridotto gap su mobile */}
                             {service.features.map((feature, i) => (
-                              <li
+                              <motion.li
                                 key={i}
-                                className="flex items-start gap-4 group/item"
+                                className="flex items-start gap-3 sm:gap-4 group/item"
+                                initial={{ opacity: 0.5 }}
+                                whileInView={{
+                                  opacity: 1,
+                                  transition: {
+                                    duration: 0.3,
+                                    delay: i * 0.1, // Delay progressivo per ogni elemento
+                                  },
+                                }}
+                                viewport={{
+                                  once: false,
+                                  margin: "-10% 0px",
+                                }}
                               >
-                                <div className="mt-1 h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 transition-colors group-hover/item:bg-primary/20">
-                                  <Check className="h-3 w-3 text-primary" />
-                                </div>
-                                <span className="text-sm leading-relaxed">
+                                <motion.div
+                                  className="mt-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0"
+                                  whileInView={{
+                                    backgroundColor: [
+                                      "hsl(var(--primary) / 0.1)",
+                                      "hsl(var(--primary) / 0.3)",
+                                      "hsl(var(--primary) / 0.1)",
+                                    ],
+                                    transition: {
+                                      duration: 1.5,
+                                      repeat: Infinity,
+                                      repeatType: "reverse",
+                                    },
+                                  }}
+                                  viewport={{
+                                    once: false,
+                                    margin: "-10% 0px",
+                                  }}
+                                >
+                                  <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary" />
+                                </motion.div>
+                                <motion.span
+                                  className="text-xs sm:text-sm leading-relaxed"
+                                  whileInView={{
+                                    color: [
+                                      "hsl(var(--foreground))",
+                                      "hsl(var(--primary))",
+                                      "hsl(var(--foreground))",
+                                    ],
+                                    transition: {
+                                      duration: 1.5,
+                                      repeat: Infinity,
+                                      repeatType: "reverse",
+                                    },
+                                  }}
+                                  viewport={{
+                                    once: false,
+                                    margin: "-10% 0px",
+                                  }}
+                                >
                                   {feature}
-                                </span>
-                              </li>
+                                </motion.span>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
@@ -323,21 +360,20 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Scrollbar più sottile e luminosa */}
+          {/* Scrollbar personalizzata con supporto mobile migliorato */}
           <motion.div
-            className="fixed left-8 top-0 h-screen w-[1px] bg-foreground/5 rounded-full overflow-hidden z-50"
+            className="fixed right-0 top-0 h-screen w-[3px] md:w-[8px] overflow-hidden z-50" // Ridotta width su mobile
             style={{
-              opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0.8]),
+              background: "hsl(var(--primary)/0.1)",
             }}
           >
             <motion.div
-              className="w-full h-full origin-top"
+              className="absolute top-0 left-0 w-full h-full"
               style={{
                 scaleY: scrollYProgress,
-                background:
-                  "linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--primary)/0.5))",
-                boxShadow: "0 0 15px hsl(var(--primary))",
-                opacity: useTransform(scrollYProgress, [0, 0.1], [0.6, 1]),
+                transformOrigin: "top",
+                background: "hsl(var(--primary))",
+                boxShadow: "0 0 20px 1px hsl(var(--primary))",
               }}
             />
           </motion.div>
