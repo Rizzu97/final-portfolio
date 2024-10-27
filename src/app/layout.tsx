@@ -14,7 +14,29 @@ const fontSans = FontSans({
 
 // Ottimizzazione keywords con long-tail e intent-based
 const keywords = [
-  // Core service keywords
+  // Development service keywords
+  "hire react developer",
+  "hire flutter developer",
+  "freelance react developer",
+  "remote flutter developer",
+  "full stack developer for hire",
+  "mobile app developer available",
+  "expert react developer",
+  "senior flutter developer",
+  "web application development",
+  "mobile app development services",
+
+  // Project-specific keywords
+  "custom web application development",
+  "enterprise app development",
+  "startup mvp development",
+  "cross platform app development",
+  "react next.js development",
+  "flutter mobile development",
+  "legacy code modernization",
+  "application maintenance services",
+
+  // Mentoring keywords
   "one on one programming mentor",
   "private coding tutor",
   "react development tutoring",
@@ -22,31 +44,16 @@ const keywords = [
   "personal tech mentor",
   "software development consulting",
 
-  // Long-tail keywords
-  "learn react with private mentor",
-  "flutter app development tutoring",
-  "startup technical consultation",
-  "custom enterprise software development",
-  "legacy application modernization",
-
-  // Intent-based keywords
-  "how to become react developer",
-  "best way to learn flutter",
-  "find programming mentor online",
-  "hire technical startup consultant",
-
-  // Service-specific keywords
-  "react next.js expert developer",
-  "flutter cross platform specialist",
-  "startup mvp development",
-  "enterprise application modernization",
-
   // Expertise keywords
   ...DATA.skills,
   "full stack development",
   "mobile app architecture",
   "cross platform development",
   "software architecture design",
+  "react next.js expert",
+  "flutter specialist",
+  "technical consultant",
+  "software architect",
 
   // Brand keywords
   DATA.name,
