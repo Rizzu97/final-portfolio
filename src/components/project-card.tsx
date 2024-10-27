@@ -1,161 +1,145 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
-import Markdown from "react-markdown";
-import { useRef, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 
-interface Props {
+interface ProjectCardProps {
   title: string;
-  href?: string;
   description: string;
-  dates: string;
+  dates?: string;
   tags: readonly string[];
-  link?: string;
-  video?: string;
-  projectUrl: string;
-  links?: readonly {
-    icon: React.ReactNode;
-    type: string;
-    href: string;
-  }[];
-  className?: string;
-  projectImage?: string;
+  projectUrl?: string;
+  index: number;
+  total: number;
 }
 
 export function ProjectCard({
   title,
-  href,
   description,
   dates,
   tags,
-  link,
-  video,
   projectUrl,
-  links,
-  className,
-  projectImage,
-}: Props) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    if (videoRef.current && video) {
-      videoRef.current.play();
-    }
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (videoRef.current && video) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-    setIsHovered(false);
-  };
+  index,
+  total,
+}: ProjectCardProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shortDescription =
+    description.slice(0, 120) + (description.length > 120 ? "..." : "");
 
   return (
-    <Card
-      className={cn(
-        "flex flex-col overflow-hidden border hover:shadow-lg transition-all duration-300 ease-out h-full cursor-pointer",
-        className
-      )}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <motion.div
+      initial={{ opacity: 0, x: 100 }}
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        transition: {
+          type: "spring",
+          damping: 20,
+          stiffness: 100,
+          delay: index * 0.1,
+        },
+      }}
+      viewport={{ once: true, margin: "-100px" }}
+      className="group relative flex-shrink-0 w-[85vw] md:w-[600px] rounded-2xl bg-black/20 backdrop-blur-sm border border-white/[0.08] hover:border-white/[0.12] transition-colors duration-700"
     >
-      <div className="relative h-48 w-full overflow-hidden">
-        <div className="relative h-48 w-full overflow-hidden bg-white dark:bg-black">
-          {video ? (
-            <video
-              ref={videoRef}
-              src={video}
-              loop
-              muted
-              playsInline
-              className={cn(
-                "absolute top-1/2 left-1/2 w-full h-full",
-                "transform -translate-x-1/2 -translate-y-1/2",
-                "transition-transform duration-300 ease-out",
-                isHovered && "scale-105"
-              )}
-              style={{
-                objectFit: "contain",
-              }}
-            >
-              Your browser does not support the video tag.
-            </video>
-          ) : projectImage ? (
-            <Image
-              src={projectImage}
-              alt={title}
-              layout="fill"
-              objectFit="contain"
-              className={cn(
-                "transition-transform duration-300 ease-out",
-                isHovered && "scale-105"
-              )}
-            />
-          ) : null}
+      {/* Subtle gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.01] to-transparent rounded-2xl" />
+
+      {/* Project number */}
+      <div className="absolute top-6 right-6 font-mono text-[10px] tracking-[0.2em] uppercase">
+        <span className="text-white/30">
+          Project {String(index + 1).padStart(2, "0")}
+        </span>
+      </div>
+
+      {/* Main content */}
+      <div className="relative p-8 flex flex-col min-h-[320px]">
+        <div className="space-y-6">
+          {/* Title section */}
+          <div className="space-y-2 max-w-[80%]">
+            <h3 className="text-2xl font-light tracking-wide text-white/90 group-hover:text-white transition-colors duration-700">
+              {title}
+            </h3>
+            {dates && (
+              <p className="text-[12px] text-white/40 tracking-[0.2em] uppercase font-light">
+                {dates}
+              </p>
+            )}
+          </div>
+
+          {/* Description with animation */}
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={isExpanded ? "expanded" : "collapsed"}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                className="text-sm leading-relaxed font-light tracking-wide"
+                style={{
+                  color: "rgba(255, 255, 255, 0.7)",
+                  textShadow: "0 0 30px rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                {isExpanded ? description : shortDescription}
+              </motion.div>
+            </AnimatePresence>
+
+            {description.length > 120 && (
+              <motion.button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="mt-3 text-white/40 hover:text-white text-xs flex items-center gap-2 transition-all duration-300"
+                whileHover={{ gap: "12px" }}
+              >
+                <span className="font-light tracking-wide">
+                  {isExpanded ? "Show less" : "Read more"}
+                </span>
+                <motion.div
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.4, ease: "anticipate" }}
+                >
+                  <ChevronDown className="w-3 h-3" />
+                </motion.div>
+              </motion.button>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom section */}
+        <div className="mt-auto pt-8">
+          <div className="flex flex-col gap-6">
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="bg-white/[0.02] hover:bg-white/[0.05] text-white/40 hover:text-white/90 border-white/[0.05] px-3 py-1 text-[11px] tracking-wider font-light transition-all duration-300"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+
+            {/* View project link */}
+            {projectUrl && (
+              <Link
+                href={projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/link w-fit flex items-center gap-2 hover:gap-3 text-white/40 hover:text-white transition-all duration-500"
+              >
+                <span className="text-xs tracking-wider font-light">
+                  View Project
+                </span>
+                <ArrowUpRight className="w-3 h-3 transition-all duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
-      <Link
-        href={projectUrl || href || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block"
-      >
-        <CardHeader className="px-2">
-          <div className="space-y-1">
-            <CardTitle className="mt-1 text-base">{title}</CardTitle>
-            <time className="font-sans text-xs">{dates}</time>
-            <div className="hidden font-sans text-xs underline print:visible">
-              {link
-                ?.replace("https://", "")
-                .replace("www.", "")
-                .replace("/", "")}
-            </div>
-            <Markdown className="prose max-w-full text-pretty font-sans text-xs text-muted-foreground dark:prose-invert">
-              {description}
-            </Markdown>
-          </div>
-        </CardHeader>
-      </Link>
-      <CardContent className="mt-auto flex flex-col px-2">
-        {tags && tags.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {tags?.map((tag) => (
-              <Badge
-                className="px-1 py-0 text-[10px]"
-                variant="secondary"
-                key={tag}
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-      </CardContent>
-      <CardFooter className="px-2 pb-2">
-        {links && links.length > 0 && (
-          <div className="flex flex-row flex-wrap items-start gap-1">
-            {links?.map((link, idx) => (
-              <Link href={link?.href} key={idx} target="_blank">
-                <Badge key={idx} className="flex gap-2 px-2 py-1 text-[10px]">
-                  {link.icon}
-                  {link.type}
-                </Badge>
-              </Link>
-            ))}
-          </div>
-        )}
-      </CardFooter>
-    </Card>
+    </motion.div>
   );
 }

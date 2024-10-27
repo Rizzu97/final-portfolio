@@ -13,7 +13,7 @@ import { Check, FileText } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { Code2, GraduationCap, Briefcase } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react"; // Aggiungiamo questi import
 
@@ -23,23 +23,34 @@ export default function Page() {
   const { scrollYProgress } = useScroll();
   const [isMounted, setIsMounted] = useState(false);
 
-  // Spostiamo useTransform fuori dalla condizione
+  // Definiamo tutte le trasformazioni qui insieme
   const backgroundOpacity = useTransform(
     scrollYProgress,
     [0.7, 1],
     [0.1, 0.05]
+  );
+  const projectsBackgroundOpacity = useTransform(
+    scrollYProgress,
+    [0.5, 0.8],
+    [0.1, 0]
   );
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // Aggiungi questa funzione per calcolare il delay delle animazioni
+  const getWorkItemDelay = (index: number) =>
+    BLUR_FADE_DELAY * 10 + index * 0.15;
+
   if (!isMounted) {
     return null; // o un loader/placeholder
   }
 
   return (
-    <main className="flex flex-col min-h-[100dvh]">
+    <main className="flex flex-col min-h-[100dvh] relative">
+      {" "}
+      {/* Aggiunto relative */}
       {/* Hero Section */}
       <section id="hero">
         <div className="mx-auto w-full max-w-2xl space-y-8">
@@ -78,7 +89,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
       {/* About Section */}
       <section id="about" className="py-20">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
@@ -90,7 +100,6 @@ export default function Page() {
           </Markdown>
         </BlurFade>
       </section>
-
       {/* Work Section */}
       <section id="work">
         <div className="flex min-h-0 flex-col gap-y-3">
@@ -117,52 +126,87 @@ export default function Page() {
           ))}
         </div>
       </section>
-
-      {/* Spostiamo la sezione services prima di contact */}
-      <section id="projects">
-        <div className="space-y-12 w-full py-12">
+      {/* Projects Section */}
+      <section id="projects" className="relative py-24 overflow-hidden">
+        <div className="space-y-8 w-full relative z-10">
+          {" "}
+          {/* Ridotto space-y da 16 a 8 */}
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-foreground text-background px-3 py-1 text-sm">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative"
+              >
+                <div className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 blur-xl opacity-20" />
+                <span className="relative px-4 py-1.5 text-sm font-medium bg-primary/10 rounded-full text-primary border border-primary/20">
                   My Projects
-                </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Check out my latest work
-                </h2>
-                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  I&apos;ve worked on a variety of projects, from simple
-                  websites and mobile apps to complex web applications. Here are
-                  a few of my favorites.
-                </p>
-              </div>
+                </span>
+              </motion.div>
+              <motion.h2
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
+              >
+                Check out my latest work
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed max-w-2xl"
+              >
+                I&apos;ve worked on a variety of projects, from simple websites
+                and mobile apps to complex web applications. Here are a few of
+                my favorites.
+              </motion.p>
+
+              {/* Scroll hint spostato qui */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-sm text-primary/60 flex items-center gap-2 mt-4"
+              >
+                <span className="tracking-wide font-light">
+                  Scroll to explore
+                </span>
+                <motion.div
+                  animate={{ x: [0, 10, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="text-primary/60"
+                >
+                  →
+                </motion.div>
+              </motion.div>
             </div>
           </BlurFade>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto">
-            {DATA.projects.map((project, id) => (
-              <BlurFade
-                key={project.title}
-                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-              >
-                <ProjectCard
-                  href={project.href}
-                  key={project.title}
-                  title={project.title}
-                  description={project.description}
-                  dates={project.dates}
-                  tags={project.technologies}
-                  projectUrl={project.projectUrl}
-                  video={(project as any).video as string | undefined}
-                  projectImage={
-                    (project as any).projectImage as string | undefined
-                  }
-                />
-              </BlurFade>
-            ))}
+          {/* Horizontal scroll container */}
+          <div className="relative">
+            <div className="flex overflow-x-auto gap-6 px-4 md:px-8 pb-12 snap-x snap-mandatory hide-scrollbar">
+              {DATA.projects.map((project, id) => (
+                <div key={project.title} className="snap-center">
+                  <ProjectCard
+                    title={project.title}
+                    description={project.description}
+                    dates={project.dates}
+                    tags={project.technologies}
+                    projectUrl={project.projectUrl}
+                    index={id}
+                    total={DATA.projects.length}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Scroll indicators */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent pointer-events-none" />
           </div>
         </div>
       </section>
-
       <section
         id="services"
         className="relative min-h-screen py-32 bg-gradient-to-b from-background via-background/50 to-background"
@@ -322,26 +366,26 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Scrollbar personalizzata con supporto mobile migliorato */}
+          {/* Scrollbar personalizzata migliorata */}
           <motion.div
-            className="fixed right-0 top-0 h-screen w-[3px] md:w-[8px] overflow-hidden z-50" // Ridotta width su mobile
+            className="fixed right-0 top-0 bottom-0 w-[3px] md:w-[5px] bg-black/5" // Modificato positioning e dimensioni
             style={{
-              background: "hsl(var(--primary)/0.1)",
+              backgroundImage:
+                "linear-gradient(to bottom, transparent, transparent)",
             }}
           >
             <motion.div
-              className="absolute top-0 left-0 w-full h-full"
+              className="absolute top-0 left-0 w-full origin-top rounded-full"
               style={{
                 scaleY: scrollYProgress,
-                transformOrigin: "top",
+                height: "100%",
                 background: "hsl(var(--primary))",
-                boxShadow: "0 0 20px 1px hsl(var(--primary))",
+                opacity: 0.3,
               }}
             />
           </motion.div>
         </div>
       </section>
-
       {/* Contact Section */}
       <section id="contact">
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
