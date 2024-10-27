@@ -96,7 +96,7 @@ export default function Page() {
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-                    Hi, I'm{" "}
+                    Hi, I am{" "}
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
                       {DATA.name.split(" ")[0]}
                     </span>{" "}
