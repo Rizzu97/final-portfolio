@@ -10,6 +10,7 @@ import { DATA } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FileText } from "lucide-react"; // Importa l'icona FileText da lucide-react
+import { Code2 } from "lucide-react";
 
 export default function Navbar() {
   return (

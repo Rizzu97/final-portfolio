@@ -1,5 +1,14 @@
 import { Icons } from "@/components/icons";
-import { HomeIcon, LogOut, NotebookIcon } from "lucide-react";
+import {
+  HomeIcon,
+  NotebookIcon,
+  Briefcase,
+  LayoutGrid,
+  Code2,
+  GraduationCap,
+  Smartphone,
+  Rocket,
+} from "lucide-react";
 
 export const DATA = {
   name: "Pierluigi Rizzu",
@@ -35,7 +44,13 @@ export const DATA = {
     "TDD",
     "Microservices Architecture",
   ],
-  navbar: [{ href: "/", icon: HomeIcon, label: "Home" }],
+  navbar: [
+    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "#about", icon: NotebookIcon, label: "About" },
+    { href: "#work", icon: Briefcase, label: "Experience" },
+    { href: "#projects", icon: LayoutGrid, label: "Projects" },
+    { href: "#services", icon: Icons.globe, label: "Services" }, // Spostato alla fine con nuova icona
+  ],
   contact: {
     email: "commerciale@pierluigirizzu.com",
     tel: "+39 3203324889",
@@ -598,5 +613,44 @@ export const DATA = {
         },
       ],
     }, */
+  ],
+  services: [
+    {
+      title: "Web Development Tutoring",
+      icon: Code2,
+      description:
+        "One-on-one tutoring sessions to master modern web development",
+      features: [
+        "Personalized React & Next.js learning path",
+        "Live coding sessions and feedback",
+        "Best practices & architecture guidance",
+        "Real project-based learning",
+        "Ongoing support via chat",
+      ],
+    },
+    {
+      title: "Flutter Tutoring",
+      icon: GraduationCap,
+      description: "Private tutoring to excel in mobile app development",
+      features: [
+        "Individual Flutter learning sessions",
+        "Step-by-step mobile development",
+        "State management & architecture",
+        "Hands-on app building guidance",
+        "Direct mentoring support",
+      ],
+    },
+    {
+      title: "Startup Project Development",
+      icon: Rocket, // importa Rocket da lucide-react
+      description: "Build your startup idea from concept to launch",
+      features: [
+        "MVP development strategy",
+        "Technical architecture planning",
+        "Full-stack implementation",
+        "Cross-platform development",
+        "Launch preparation guidance",
+      ],
+    },
   ],
 } as const;
