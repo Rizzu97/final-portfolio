@@ -12,88 +12,80 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+// Ottimizzazione keywords con long-tail e intent-based
 const keywords = [
+  // Core service keywords
+  "one on one programming mentor",
+  "private coding tutor",
+  "react development tutoring",
+  "flutter development mentoring",
+  "personal tech mentor",
+  "software development consulting",
+
+  // Long-tail keywords
+  "learn react with private mentor",
+  "flutter app development tutoring",
+  "startup technical consultation",
+  "custom enterprise software development",
+  "legacy application modernization",
+
+  // Intent-based keywords
+  "how to become react developer",
+  "best way to learn flutter",
+  "find programming mentor online",
+  "hire technical startup consultant",
+
+  // Service-specific keywords
+  "react next.js expert developer",
+  "flutter cross platform specialist",
+  "startup mvp development",
+  "enterprise application modernization",
+
+  // Expertise keywords
   ...DATA.skills,
-  "React Developer",
-  "Flutter Developer",
-  "Sviluppatore React",
-  "Sviluppatore Flutter",
-  "Full-stack Developer",
-  "Cross-platform Development",
-  "Sviluppo Multi-piattaforma",
-  "Mobile App Development",
-  "Web Application Development",
-  "Progressive Web Apps (PWA)",
-  "Single Page Applications (SPA)",
-  "UI/UX Design",
-  "Responsive Design",
-  "API Integration",
-  "State Management",
-  "Performance Optimization",
-  "Code Refactoring",
-  "Agile Methodologies",
-  "Version Control (Git)",
-  "Continuous Integration/Continuous Deployment (CI/CD)",
+  "full stack development",
+  "mobile app architecture",
+  "cross platform development",
+  "software architecture design",
+
+  // Brand keywords
   DATA.name,
   ...DATA.work.map((job) => job.company),
-  ...DATA.projects.map((project) => project.title),
-  ...DATA.education.map((edu) => edu.school),
 ];
 
 export const metadata: Metadata = {
-  metadataBase: new URL(DATA.url),
+  metadataBase: new URL("https://pierluigirizzu.it"),
   title: {
-    default: `${DATA.name} - React & Flutter Developer | Full-stack & Cross-platform Expert`,
-    template: `%s | ${DATA.name} - React & Flutter Developer`,
+    default: `${DATA.name} | Development Mentoring & Technical Consulting`,
+    template: `%s | ${DATA.name} - Expert Development Mentor`,
   },
-  description: `${
-    DATA.name
-  }: Expert React and Flutter developer specializing in ${DATA.skills
-    .slice(0, 3)
-    .join(
-      ", "
-    )}. Crafting high-performance, cross-platform web and mobile applications. Full-stack capabilities with a focus on seamless user experiences. Available for challenging projects and collaborations. | Sviluppatore esperto in React e Flutter, specializzato in ${DATA.skills
-    .slice(0, 3)
-    .join(
-      ", "
-    )}. Creazione di applicazioni web e mobile multi-piattaforma ad alte prestazioni. Competenze full-stack con focus su esperienze utente impeccabili. Disponibile per progetti stimolanti e collaborazioni.`,
+  description: `Expert software developer and mentor specializing in one-on-one tutoring for React and Flutter. Offering personalized learning paths, startup consulting, and enterprise solutions. With ${DATA.work.length}+ years of experience, I help developers and businesses achieve their technical goals through dedicated mentoring and professional development.`,
   openGraph: {
-    title: `${DATA.name} - React & Flutter Developer | Full-stack & Cross-platform Expert`,
-    description: `Hire ${
-      DATA.name
-    } for your next web or mobile project. Expertise in React, Flutter, ${DATA.skills
-      .slice(0, 3)
-      .join(
-        ", "
-      )}. Delivering scalable, high-performance solutions across platforms. | Assumi ${
-      DATA.name
-    } per il tuo prossimo progetto web o mobile. Esperienza in React, Flutter, ${DATA.skills
-      .slice(0, 3)
-      .join(
-        ", "
-      )}. Soluzioni scalabili e ad alte prestazioni su tutte le piattaforme.`,
-    url: DATA.url,
-    siteName: `${DATA.name} - Full-stack Developer Portfolio`,
+    type: "website",
     locale: "en_US",
-    alternateLocale: "it_IT",
-    type: "profile",
-    firstName: DATA.name.split(" ")[0],
-    lastName: DATA.name.split(" ")[1],
+    url: "https://pierluigirizzu.it",
+    siteName: `${DATA.name} - Development Mentoring`,
+    title: `${DATA.name} | Expert Development Mentoring & Consulting`,
+    description:
+      "Transform your development skills with personalized one-on-one mentoring. Expert guidance in React, Flutter, and modern software architecture.",
     images: [
       {
-        url: `${DATA.url}/me`,
-        width: 800,
-        height: 600,
-        alt: `${DATA.name} - React & Flutter Developer`,
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: `${DATA.name} - Development Mentor & Consultant`,
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${DATA.name} | Development Mentoring & Technical Consulting`,
+    description:
+      "Personalized mentoring for web and mobile development. Transform your skills with one-on-one guidance.",
+    images: ["/og-image.png"],
+  },
   alternates: {
-    canonical: DATA.url,
-    languages: {
-      "en-US": `${DATA.url}/en`,
-      "it-IT": `${DATA.url}/it`,
-    },
+    canonical: "https://pierluigirizzu.it",
   },
   robots: {
     index: true,
@@ -106,24 +98,18 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${DATA.name} - React & Flutter Expert | Full-stack Developer`,
-    description: `Hire ${DATA.name} for cutting-edge web and mobile solutions. React and Flutter specialist with ${DATA.work[0].company} experience. From concept to deployment, delivering exceptional user experiences. | Assumi ${DATA.name} per soluzioni web e mobile all'avanguardia. Specialista React e Flutter con esperienza in ${DATA.work[0].company}.`,
-    images: [`${DATA.url}/me`],
-  },
-  keywords: keywords,
-  authors: [{ name: DATA.name, url: DATA.url }],
+  authors: [{ name: DATA.name, url: "https://pierluigirizzu.it" }],
   creator: DATA.name,
   publisher: DATA.name,
+  keywords: keywords.join(", "),
   category: "Technology",
-  applicationName: `${DATA.name}'s Full-stack Developer Portfolio`,
+  applicationName: `${DATA.name} - Development Mentoring`,
+  generator: "Next.js",
   referrer: "origin-when-cross-origin",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default function RootLayout({
@@ -132,7 +118,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="it" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased max-w-2xl mx-auto py-12 sm:py-24 px-6",

@@ -9,18 +9,34 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DATA } from "@/data/resume";
-import { Check, FileText } from "lucide-react"; // Importiamo l'icona FileText da lucide-react
+import { Check, FileText } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { Code2, GraduationCap, Briefcase } from "lucide-react";
-import { PriceCard } from "@/components/price-card";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react"; // Aggiungiamo questi import
 
 const BLUR_FADE_DELAY = 0.04;
 
 export default function Page() {
   const { scrollYProgress } = useScroll();
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Spostiamo useTransform fuori dalla condizione
+  const backgroundOpacity = useTransform(
+    scrollYProgress,
+    [0.7, 1],
+    [0.1, 0.05]
+  );
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // o un loader/placeholder
+  }
 
   return (
     <main className="flex flex-col min-h-[100dvh]">
@@ -156,7 +172,7 @@ export default function Page() {
           <motion.div
             className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--primary)_0%,_transparent_65%)]"
             style={{
-              opacity: useTransform(scrollYProgress, [0.7, 1], [0.1, 0.05]),
+              opacity: backgroundOpacity, // Usiamo la variabile creata sopra
             }}
           />
         </div>
@@ -256,7 +272,9 @@ export default function Page() {
                               </span>
                             </div>
                             <div className="space-y-2">
-                              <p className="text-sm sm:text-base text-muted-foreground">
+                              <p className="text-sm sm:text-base text-foreground/90">
+                                {" "}
+                                {/* Cambiato da text-muted-foreground */}
                                 {service.description}
                               </p>
                             </div>
@@ -286,71 +304,15 @@ export default function Page() {
                           </Button>
                         </div>
                         <div className="w-full md:w-1/2">
-                          <ul className="grid gap-3 sm:gap-4">
-                            {" "}
-                            {/* Ridotto gap su mobile */}
-                            {service.features.map((feature, i) => (
-                              <motion.li
-                                key={i}
-                                className="flex items-start gap-3 sm:gap-4 group/item"
-                                initial={{ opacity: 0.5 }}
-                                whileInView={{
-                                  opacity: 1,
-                                  transition: {
-                                    duration: 0.3,
-                                    delay: i * 0.1, // Delay progressivo per ogni elemento
-                                  },
-                                }}
-                                viewport={{
-                                  once: false,
-                                  margin: "-10% 0px",
-                                }}
-                              >
-                                <motion.div
-                                  className="mt-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0"
-                                  whileInView={{
-                                    backgroundColor: [
-                                      "hsl(var(--primary) / 0.1)",
-                                      "hsl(var(--primary) / 0.3)",
-                                      "hsl(var(--primary) / 0.1)",
-                                    ],
-                                    transition: {
-                                      duration: 1.5,
-                                      repeat: Infinity,
-                                      repeatType: "reverse",
-                                    },
-                                  }}
-                                  viewport={{
-                                    once: false,
-                                    margin: "-10% 0px",
-                                  }}
-                                >
-                                  <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-primary" />
-                                </motion.div>
-                                <motion.span
-                                  className="text-xs sm:text-sm leading-relaxed"
-                                  whileInView={{
-                                    color: [
-                                      "hsl(var(--foreground))",
-                                      "hsl(var(--primary))",
-                                      "hsl(var(--foreground))",
-                                    ],
-                                    transition: {
-                                      duration: 1.5,
-                                      repeat: Infinity,
-                                      repeatType: "reverse",
-                                    },
-                                  }}
-                                  viewport={{
-                                    once: false,
-                                    margin: "-10% 0px",
-                                  }}
-                                >
-                                  {feature}
-                                </motion.span>
-                              </motion.li>
-                            ))}
-                          </ul>
+                          <motion.p
+                            className="text-sm sm:text-base text-foreground/90 leading-relaxed"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: false, margin: "-10% 0px" }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            <Markdown>{service.features}</Markdown>
+                          </motion.p>
                         </div>
                       </div>
                     </div>

@@ -8,6 +8,8 @@ import {
   GraduationCap,
   Smartphone,
   Rocket,
+  Building2,
+  Settings,
 } from "lucide-react";
 
 export const DATA = {
@@ -619,38 +621,38 @@ export const DATA = {
       title: "Web Development Tutoring",
       icon: Code2,
       description:
-        "One-on-one tutoring sessions to master modern web development",
-      features: [
-        "Personalized React & Next.js learning path",
-        "Live coding sessions and feedback",
-        "Best practices & architecture guidance",
-        "Real project-based learning",
-        "Ongoing support via chat",
-      ],
+        "Master modern web development through personalized 1-on-1 sessions",
+      features:
+        "Let's design a learning journey tailored just for you, focusing on modern technologies like **React** and **Next.js**. I'll be your guide every step of the way, sharing insights and best practices while we build real projects together.",
     },
     {
-      title: "Flutter Tutoring",
+      title: "Mobile Development",
       icon: GraduationCap,
-      description: "Private tutoring to excel in mobile app development",
-      features: [
-        "Individual Flutter learning sessions",
-        "Step-by-step mobile development",
-        "State management & architecture",
-        "Hands-on app building guidance",
-        "Direct mentoring support",
-      ],
+      description: "Build professional mobile applications for iOS and Android",
+      features:
+        "Let's explore mobile development together using **Flutter**, creating beautiful cross-platform applications. We'll start from your current level and work towards building professional apps that perform flawlessly on both iOS and Android.",
     },
     {
       title: "Startup Project Development",
-      icon: Rocket, // importa Rocket da lucide-react
-      description: "Build your startup idea from concept to launch",
-      features: [
-        "MVP development strategy",
-        "Technical architecture planning",
-        "Full-stack implementation",
-        "Cross-platform development",
-        "Launch preparation guidance",
-      ],
+      icon: Rocket,
+      description:
+        "Turn your startup idea into a polished, production-ready product",
+      features:
+        "I'll be your technical partner in bringing your startup idea to life. Together we'll plan the perfect architecture for your project and create an MVP that will impress both users and investors. You won't have to figure it out alone.",
+    },
+    {
+      title: "Enterprise Solutions",
+      icon: Building2,
+      description: "Scale your business with custom enterprise solutions",
+      features:
+        "Let's collaborate to enhance your company's digital infrastructure. Whether you need to modernize legacy systems or develop new enterprise-grade applications, I'll work closely with your team to deliver scalable, secure, and maintainable solutions that drive your business forward.",
+    },
+    {
+      title: "Maintenance & Evolution",
+      icon: Settings,
+      description: "Keep your applications up-to-date and evolving",
+      features:
+        "I'll help maintain and evolve your existing applications, whether they need performance improvements, new features, or modernization. Together we'll ensure your software stays current, secure, and aligned with your growing business needs.",
     },
   ],
 } as const;
