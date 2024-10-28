@@ -89,7 +89,7 @@ export const DATA = {
       start: "Jul 2023",
       end: "Present",
       description:
-        "Initially hired as a Flutter Developer, I led the transition to React, enhancing our development capabilities. Key contributions to the Exagon Plus project include real-time appointment scheduling with WebSockets, CI/CD pipelines, and environment segregation. My leadership enabled Exagon to take on high-profile projects, particularly in developing management systems integrated with various external services. As head of the technical department, I work closely with the CEO, driving strategic initiatives and ensuring successful project delivery.",
+        "Joined as a Flutter Developer and successfully led the team's transition to React. Made significant contributions to the Exagon Plus project, implementing real-time appointment scheduling with WebSockets and establishing robust CI/CD pipelines. Working closely with the CEO/CTO to reduce technical debt and modernize our development practices. Currently leading development of management systems integrated with various external services, while helping drive strategic technical initiatives.",
     },
     {
       company: "Freelance",
@@ -101,7 +101,7 @@ export const DATA = {
       start: "Feb 2022",
       end: "Present",
       description:
-        "As a solo freelancer, I have successfully managed and delivered turnkey projects ahead of schedule, specializing in Flutter development. My work involves converting mobile applications into websites and vice versa, showcasing versatility across platforms. I have managed interactions and presentations of final products to major clients, including the University of Padua and Johix, consistently delivering high-quality solutions that meet and exceed client expectations.",
+        "As an independent developer, I successfully deliver end-to-end projects specializing in Flutter development. My expertise includes creating seamless transitions between mobile applications and websites, ensuring consistent user experiences across platforms. Have built strong relationships with notable clients including the University of Padua and Johix, consistently delivering solutions that exceed expectations.",
     },
     {
       company: "Ars Digitalia",
@@ -113,9 +113,8 @@ export const DATA = {
       start: "Oct 2019",
       end: "Nov 2023",
       description:
-        "At Ars Digitalia, I established and led the mobile department, transitioning the team from Nativescript to Flutter. I integrated Flutter with technologies like Shopify, PayPal, Firebase, and Prestashop, enhancing our mobile products. I collaborated with clients such as Axios, Ambrosetti, and the Rotary Club, supporting over 50,000 users. My leadership enabled the company to deliver high-quality mobile solutions and expand its client base.",
+        "Played a key role in developing the mobile department, successfully leading the transition from Nativescript to Flutter. Enhanced our mobile solutions by integrating technologies like Shopify, PayPal, Firebase, and Prestashop. Developed and maintained applications for major clients including Axios, Ambrosetti, and the Rotary Club, serving a user base of over 50,000. Helped expand the company's mobile development capabilities and client portfolio.",
     },
-
     {
       company: "Datbrain",
       href: "https://datbraincompany.com",
@@ -126,7 +125,7 @@ export const DATA = {
       start: "Jan 2019",
       end: "Jun 2021",
       description:
-        "At Datbrain, I began my career as a Mobile Developer, contributing to the evolution of the Hudi app from a mobile application to the DFE app, a comprehensive web platform with integrated cryptocurrency features. I developed robust referral systems that enhanced user engagement and growth. Demonstrating versatility, I transitioned to a Frontend Developer role, where I played a key role in developing Smarkez, a browser application for marketers. I integrated Firebase for notifications and other functionalities, significantly enhancing the application's performance and user experience.",
+        "Started my journey as a Mobile Developer, contributing to the evolution of the Hudi app into the DFE platform, a comprehensive web solution with cryptocurrency features. Developed effective user engagement systems including referral programs. Successfully transitioned to Frontend development, where I contributed significantly to Smarkez, implementing key features including Firebase integrations that enhanced the application's capabilities.",
     },
   ],
   education: [
