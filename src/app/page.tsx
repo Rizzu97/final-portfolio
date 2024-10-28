@@ -543,36 +543,49 @@ export default function Page() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={cn(
                   "group",
-                  index === 2 ? "md:col-span-2 md:order-first" : ""
+                  // Technical Mentoring sempre in cima, anche su mobile
+                  index === 2 ? "order-first md:col-span-2" : ""
                 )}
               >
                 <div className="relative h-full">
-                  {/* Popular badge come stripe diagonale */}
+                  {/* Popular badge con animazione */}
                   {index === 2 && (
-                    <div
-                      className={cn(
-                        "absolute -right-[2px] top-0",
-                        "w-[130px] h-[130px]",
-                        "overflow-hidden",
-                        "pointer-events-none",
-                        "z-[1]"
-                      )}
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={cn("absolute -top-2.5 right-4", "z-[1]")}
                     >
                       <div
                         className={cn(
-                          "absolute transform rotate-45 translate-x-[40px] -translate-y-[30px]",
-                          "w-[200px] text-center",
-                          "bg-emerald-500/40",
-                          "py-1.5",
-                          "border-b border-t border-emerald-500/50",
-                          "text-[11px] font-medium tracking-wider",
-                          "text-emerald-300",
-                          "backdrop-blur-sm"
+                          "relative px-3 py-1",
+                          "bg-emerald-500/10",
+                          "rounded-full",
+                          "border border-emerald-500/20",
+                          "backdrop-blur-sm",
+                          "overflow-hidden"
                         )}
                       >
-                        Popular
+                        {/* Effetto shine animato */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent"
+                          animate={{
+                            x: ["-100%", "200%"],
+                          }}
+                          transition={{
+                            duration: 3,
+                            ease: "easeInOut",
+                            repeat: Infinity,
+                            repeatDelay: 3,
+                          }}
+                        />
+                        <div className="relative flex items-center gap-1.5">
+                          <div className="h-1.5 w-1.5 rounded-full bg-emerald-500/70" />
+                          <span className="text-[11px] font-medium text-emerald-400 tracking-wide">
+                            Popular
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
 
                   <div
@@ -602,40 +615,10 @@ export default function Page() {
                           <service.icon className="w-5 h-5 text-white/90" />
                         </div>
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-[17px] font-medium text-white tracking-tight">
-                              {service.title}
-                            </h3>
-                            {/* Badge Popular */}
-                            {index === 2 && (
-                              <motion.div
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className={cn(
-                                  "relative px-2 py-0.5",
-                                  "bg-emerald-500/10",
-                                  "border-l-2 border-emerald-500/50",
-                                  "overflow-hidden"
-                                )}
-                              >
-                                <motion.div
-                                  className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0"
-                                  animate={{
-                                    x: ["0%", "200%"],
-                                  }}
-                                  transition={{
-                                    duration: 2,
-                                    ease: "easeInOut",
-                                    repeat: Infinity,
-                                    repeatDelay: 1,
-                                  }}
-                                />
-                                <span className="relative text-[11px] font-medium text-emerald-400/90 tracking-wider">
-                                  Popular
-                                </span>
-                              </motion.div>
-                            )}
-                          </div>
+                          {/* Rimosso il badge Popular qui e semplificato la struttura */}
+                          <h3 className="text-[17px] font-medium text-white tracking-tight mb-2">
+                            {service.title}
+                          </h3>
                           <p className="text-[13px] text-white/70 font-light leading-relaxed">
                             {service.description}
                           </p>
