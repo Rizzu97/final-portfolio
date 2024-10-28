@@ -22,6 +22,9 @@ const BLUR_FADE_DELAY = 0.04;
 export default function Page() {
   const { scrollYProgress } = useScroll();
   const [isMounted, setIsMounted] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean[]>(
+    new Array(DATA.work.length).fill(false)
+  );
 
   // Definiamo tutte le trasformazioni qui insieme
   const backgroundOpacity = useTransform(
@@ -43,12 +46,20 @@ export default function Page() {
   const getWorkItemDelay = (index: number) =>
     BLUR_FADE_DELAY * 10 + index * 0.15;
 
+  const toggleExpand = (index: number) => {
+    setIsExpanded((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
+
   if (!isMounted) {
     return null; // o un loader/placeholder
   }
 
   return (
-    <main className="flex flex-col min-h-[100dvh] relative">
+    <main className="flex flex-col min-h-[100dvh] relative overflow-x-hidden">
       {" "}
       {/* Aggiunto relative */}
       {/* Hero Section */}
@@ -79,15 +90,13 @@ export default function Page() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-primary/10 rounded-full text-primary border border-primary/20"
                 >
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/40 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary/80"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                   </span>
-                  <span className="text-sm text-primary/80">
-                    Available for work
-                  </span>
+                  <span>Available for work</span>
                 </motion.div>
 
                 <motion.div
@@ -123,7 +132,7 @@ export default function Page() {
                 <Link href="/cv.pdf" target="_blank" rel="noopener noreferrer">
                   <Button
                     variant="default"
-                    className="group flex items-center gap-2 hover:scale-105 transition-all duration-300"
+                    className="group flex items-center gap-2 hover:scale-105 transition-all duration-300 min-w-[120px] justify-center"
                   >
                     <FileText className="w-4 h-4 group-hover:rotate-6 transition-transform duration-300" />
                     <span>View CV</span>
@@ -133,7 +142,7 @@ export default function Page() {
                 <Link href="#contact">
                   <Button
                     variant="outline"
-                    className="group flex items-center gap-2 hover:scale-105 transition-all duration-300"
+                    className="group flex items-center gap-2 hover:scale-105 transition-all duration-300 min-w-[120px] justify-center"
                   >
                     <span>Contact me</span>
                     <motion.div
@@ -211,17 +220,17 @@ export default function Page() {
         </BlurFade>
       </section>
       {/* Work Section */}
-      <section id="work" className="relative py-24">
+      <section id="work" className="relative py-20">
+        {" "}
+        {/* Cambiato da py-24 */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
-          className="relative max-w-5xl mx-auto px-4" // Aggiunto max-width e padding
+          className="relative max-w-5xl mx-auto px-4"
         >
           {/* Header centrato */}
           <div className="flex flex-col items-center text-center space-y-6 mb-16">
-            {" "}
-            {/* Modificato spacing e allineamento */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -237,92 +246,154 @@ export default function Page() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 max-w-2xl" // Aggiunto max-width
+              className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70 max-w-2xl"
             >
               My Professional Journey
             </motion.h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-muted-foreground max-w-[600px] text-base sm:text-lg" // Aggiunto max-width e responsive text
-            >
-              A timeline of my professional experience and the amazing companies
-              I&apos;ve worked with
-            </motion.p>
           </div>
 
-          {/* Timeline container con spacing migliorato */}
-          <div className="relative space-y-12">
-            {" "}
-            {/* Aumentato spacing tra le card */}
-            {/* Timeline line con gradient migliorato */}
-            <motion.div
-              className="absolute left-12 top-0 bottom-0 w-[1px] bg-gradient-to-b from-primary/40 via-primary/20 to-transparent"
-              initial={{ height: 0 }}
-              whileInView={{ height: "100%" }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-            />
+          {/* Work Experience Cards */}
+          <div className="relative space-y-8 sm:space-y-12">
+            {/* Timeline line principale - ottimizzata per mobile */}
+            <div className="absolute left-4 sm:left-12 top-0 bottom-0 flex flex-col items-center">
+              <div className="w-[1px] h-full bg-gradient-to-b from-primary/40 via-primary/30 to-primary/20" />
+            </div>
+
             {DATA.work.map((work, id) => (
               <motion.div
                 key={work.company}
-                className="relative pl-24 group"
-                initial={{
-                  opacity: 0,
-                  x: -20,
-                  y: 20,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  x: 0,
-                  y: 0,
-                }}
-                transition={{
-                  duration: 0.8,
-                  delay: id * 0.2,
-                  ease: [0.21, 1.11, 0.81, 0.99],
-                }}
-                viewport={{ once: true, margin: "-100px" }}
+                className="relative pl-12 sm:pl-24 group"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: id * 0.1 }}
               >
-                {/* Year marker con font migliorato */}
-                <motion.div
-                  className="absolute left-0 top-[12px] flex items-center"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: id * 0.2 + 0.3 }}
-                >
-                  <div className="w-24 text-sm text-primary/50 font-mono tracking-wider">
+                {/* Year marker adattato per mobile */}
+                <div className="absolute left-0 top-[28px] hidden sm:flex items-center">
+                  <div className="w-10 font-mono text-sm text-primary/60 font-medium tracking-wider">
                     {work.start.split(" ")[1]}
                   </div>
-                </motion.div>
-
-                {/* Connection line con gradient migliorato */}
-                <div className="absolute left-12 top-[12px] w-12 h-[1px] overflow-hidden">
-                  <motion.div
-                    className="w-full h-full bg-gradient-to-r from-primary/50 to-primary/10"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    transition={{ duration: 0.4, delay: id * 0.2 + 0.2 }}
-                    style={{ originX: 0 }}
-                  />
                 </div>
 
-                {/* Card wrapper con hover migliorato */}
+                {/* Connection line adattata per mobile */}
+                <div className="absolute left-4 sm:left-12 top-[31px] w-8 sm:w-12 h-[1px]">
+                  <div className="w-full h-full bg-gradient-to-r from-primary/40 to-transparent" />
+                </div>
+
+                {/* Card ottimizzata per mobile */}
                 <motion.div
-                  className="relative transform-gpu"
+                  className="relative transform-gpu cursor-pointer"
                   whileHover={{ x: 10 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                  onClick={() => toggleExpand(id)}
                 >
-                  <ResumeCard
-                    logoUrl={work.logoUrl}
-                    altText={work.company}
-                    title={work.company}
-                    subtitle={work.title}
-                    href={work.href}
-                    badges={work.badges}
-                    period={`${work.start} - ${work.end ?? "Present"}`}
-                    description={work.description}
-                  />
+                  <div
+                    className={cn(
+                      "relative rounded-xl transition-all duration-500",
+                      "bg-black/20 backdrop-blur-sm",
+                      "border border-primary/[0.08]",
+                      "group-hover:bg-black/30",
+                      "group-hover:border-primary/20",
+                      isExpanded[id] && "bg-black/40 border-primary/20"
+                    )}
+                  >
+                    <div className="relative z-10 p-4 sm:p-7">
+                      <div className="flex justify-between items-start gap-3 sm:gap-5">
+                        <div className="flex gap-3 sm:gap-5">
+                          {/* Avatar più piccolo su mobile */}
+                          <Avatar
+                            className={cn(
+                              "size-12 sm:size-14 rounded-xl overflow-hidden",
+                              "border border-primary/10",
+                              "group-hover:border-primary/20 transition-colors duration-500",
+                              "bg-black/40"
+                            )}
+                          >
+                            <AvatarImage
+                              src={work.logoUrl}
+                              alt={work.company}
+                              className="object-cover"
+                            />
+                            <AvatarFallback className="rounded-xl text-primary/60 font-medium">
+                              {work.company[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="space-y-1 sm:space-y-2">
+                            {/* Anno visibile su mobile */}
+                            <p className="text-xs text-primary/60 font-mono tracking-wider sm:hidden">
+                              {work.start.split(" ")[1]}
+                            </p>
+                            <h3 className="font-semibold text-base sm:text-lg tracking-tight text-white">
+                              {work.company}
+                            </h3>
+                            <p className="text-xs sm:text-[13px] text-primary/80 font-medium tracking-wide">
+                              {work.title}
+                            </p>
+                            <p className="text-[10px] sm:text-xs text-primary/60 font-light tracking-wider">
+                              {work.start} - {work.end ?? "Present"}
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          className={cn(
+                            "size-6 sm:size-8 flex items-center justify-center",
+                            "text-primary/40 group-hover:text-primary/60",
+                            "transition-all duration-500",
+                            isExpanded[id] && "text-primary/80"
+                          )}
+                        >
+                          <motion.span
+                            animate={{ rotate: isExpanded[id] ? 180 : 0 }}
+                            transition={{
+                              duration: 0.5,
+                              ease: [0.32, 0.72, 0, 1],
+                            }}
+                            className="text-xs sm:text-sm"
+                          >
+                            ↓
+                          </motion.span>
+                        </div>
+                      </div>
+
+                      <motion.div
+                        animate={{
+                          height: isExpanded[id] ? "auto" : 0,
+                          opacity: isExpanded[id] ? 1 : 0,
+                        }}
+                        initial={false}
+                        transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div
+                          className={cn(
+                            "pt-4 sm:pt-7 space-y-4 sm:space-y-6",
+                            "transition-opacity duration-500",
+                            isExpanded[id] ? "opacity-100" : "opacity-0"
+                          )}
+                        >
+                          <p className="text-xs sm:text-[13px] text-white/90 font-light leading-relaxed tracking-wide">
+                            {work.description}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                            {work.badges.map((badge) => (
+                              <Badge
+                                key={badge}
+                                variant="secondary"
+                                className={cn(
+                                  "rounded-md text-[10px] sm:text-[11px] font-medium tracking-wider py-1 px-2 sm:py-1.5 sm:px-3",
+                                  "bg-primary/5 text-primary/70",
+                                  "border border-primary/10",
+                                  "hover:bg-primary/10 hover:border-primary/20",
+                                  "transition-colors duration-500"
+                                )}
+                              >
+                                {badge}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
                 </motion.div>
               </motion.div>
             ))}
@@ -330,12 +401,10 @@ export default function Page() {
         </motion.div>
       </section>
       {/* Projects Section */}
-      <section id="projects" className="relative py-16">
+      <section id="projects" className="relative py-20">
         {" "}
-        {/* Ridotto da py-24 */}
+        {/* Cambiato da py-16 */}
         <div className="space-y-8 w-full relative z-10">
-          {" "}
-          {/* Ridotto space-y da 16 a 8 */}
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
             <div className="flex flex-col items-center justify-center space-y-4 text-center px-4">
               <motion.div
@@ -427,189 +496,223 @@ export default function Page() {
       {/* Services Section */}
       <section
         id="services"
-        className="relative py-24 bg-gradient-to-b from-background via-background/50 to-background" // Rimosso min-h-screen e modificato padding
+        className="relative py-20 bg-gradient-to-b from-background via-background/50 to-background"
       >
-        {/* Background effects */}
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--primary)_0%,_transparent_65%)]"
-            style={{
-              opacity: backgroundOpacity,
-            }}
-          />
-        </div>
-
-        {/* Titolo con spacing ridotto */}
-        <div className="container max-w-5xl mx-auto px-4 mb-8">
-          {" "}
-          {/* Ridotto da mb-12 */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center text-center space-y-4"
-          >
+        {/* Header della sezione */}
+        <div className="container max-w-6xl mx-auto px-4 mb-16">
+          <div className="flex flex-col items-center text-center space-y-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="relative"
             >
               <div className="absolute -inset-x-2 -inset-y-1 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 blur-xl opacity-20" />
               <span className="relative px-4 py-1.5 text-sm font-medium bg-primary/10 rounded-full text-primary border border-primary/20">
-                Development & Mentoring
+                Services
               </span>
             </motion.div>
-            <motion.div
+            <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-3xl"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3">
-                <span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
-                  Expert Guidance
-                  <span className="block mt-2">& Development</span>{" "}
-                  {/* Modificato il testo e la struttura */}
-                </span>
-              </h2>
-              <p className="text-muted-foreground text-base">
-                {" "}
-                {/* Ridotto da text-lg */}
-                From one-on-one mentoring to building your next startup project
-              </p>
-            </motion.div>
-          </motion.div>
+              What I can help you with
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed max-w-2xl"
+            >
+              Specialized in modern web and mobile development, offering
+              end-to-end solutions for your digital needs
+            </motion.p>
+          </div>
         </div>
 
-        {/* Cards container con spacing ottimizzato */}
-        <div className="container relative max-w-5xl mx-auto">
-          <div className="relative space-y-[10vh] md:space-y-[15vh]">
-            {" "}
-            {/* Ridotto da 15vh/20vh */}
+        {/* Cards container */}
+        <div className="container relative max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {DATA.services.map((service, index) => (
-              <div key={service.title} className="min-h-[50vh] md:h-[40vh]">
-                {" "}
-                {/* Ridotto da 60vh/50vh */}
-                <div className="sticky top-16 md:top-20">
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: false, margin: "-10% 0px" }}
-                    transition={{ duration: 0.3 }}
-                    className="group relative px-2 sm:px-4 md:px-0" // Ridotto padding su mobile molto piccolo
-                  >
-                    {/* Glow effect che si mantiene nella viewport */}
-                    <motion.div
-                      className="absolute -inset-[2px] bg-gradient-to-r from-primary/30 via-primary/50 to-primary/30 rounded-2xl blur-md"
-                      initial={{ opacity: 0 }}
-                      whileInView={{
-                        opacity: [0, 0.6, 0.4, 0.6],
-                      }}
-                      transition={{
-                        duration: 2,
-                        ease: "easeInOut",
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                      }}
-                      viewport={{
-                        once: false,
-                        margin: "-20% 0px",
-                      }}
-                    />
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className={cn(
+                  "group",
+                  index === 2 ? "md:col-span-2 md:order-first" : ""
+                )}
+              >
+                <div className="relative h-full">
+                  {/* Popular badge come stripe diagonale */}
+                  {index === 2 && (
                     <div
                       className={cn(
-                        "relative backdrop-blur-sm border rounded-2xl p-4 sm:p-6 md:p-10", // Ridotto padding su mobile
-                        "bg-card/95 transition-all duration-500",
-                        "group-hover:border-primary/50 border-border/50",
-                        "shadow-lg shadow-primary/0 group-hover:shadow-primary/5"
+                        "absolute -right-[2px] top-0",
+                        "w-[130px] h-[130px]",
+                        "overflow-hidden",
+                        "pointer-events-none",
+                        "z-[1]"
                       )}
                     >
-                      <div className="flex flex-col md:flex-row items-start gap-6 sm:gap-8 md:gap-16">
-                        {" "}
-                        {/* Ridotto gap su mobile */}
-                        <div className="w-full md:w-1/2 space-y-4 sm:space-y-6">
-                          {" "}
-                          {/* Ridotto spacing su mobile */}
-                          <div className="space-y-4 sm:space-y-6">
-                            <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/[0.08] text-primary">
-                              <service.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                              <span className="text-xs sm:text-sm font-medium">
-                                {service.title}
-                              </span>
-                            </div>
-                            <div className="space-y-2">
-                              <p className="text-sm sm:text-base text-foreground/90">
-                                {" "}
-                                {/* Cambiato da text-muted-foreground */}
-                                {service.description}
-                              </p>
-                            </div>
-                          </div>
-                          <Button
-                            className="w-full md:w-auto relative overflow-hidden group/button text-xs sm:text-sm" // Ridotto font su mobile
-                            asChild
-                          >
-                            <a
-                              href={`https://wa.me/${DATA.contact.tel.replace(
-                                /[^0-9]/g,
-                                ""
-                              )}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2"
-                            >
-                              Contact on WhatsApp
-                              <motion.div
-                                className="relative w-3 h-3 sm:w-4 sm:h-4"
-                                animate={{ x: [0, 4, 0] }}
-                                transition={{ repeat: Infinity, duration: 1.5 }}
-                              >
-                                →
-                              </motion.div>
-                            </a>
-                          </Button>
-                        </div>
-                        <div className="w-full md:w-1/2">
-                          <motion.p
-                            className="text-sm sm:text-base text-foreground/90 leading-relaxed"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: false, margin: "-10% 0px" }}
-                            transition={{ duration: 0.5 }}
-                          >
-                            <Markdown>{service.features}</Markdown>
-                          </motion.p>
-                        </div>
+                      <div
+                        className={cn(
+                          "absolute transform rotate-45 translate-x-[40px] -translate-y-[30px]",
+                          "w-[200px] text-center",
+                          "bg-emerald-500/40",
+                          "py-1.5",
+                          "border-b border-t border-emerald-500/50",
+                          "text-[11px] font-medium tracking-wider",
+                          "text-emerald-300",
+                          "backdrop-blur-sm"
+                        )}
+                      >
+                        Popular
                       </div>
                     </div>
-                  </motion.div>
+                  )}
+
+                  <div
+                    className={cn(
+                      "relative h-full rounded-xl",
+                      "bg-black/20 backdrop-blur-sm",
+                      "border border-white/[0.08]",
+                      "group-hover:border-white/[0.15]",
+                      "transition-all duration-700",
+                      "flex flex-col"
+                    )}
+                  >
+                    <div className="p-8 flex-1">
+                      {" "}
+                      {/* Aumentato da p-7 */}
+                      {/* Service Header */}
+                      <div className="flex items-start gap-5 mb-8">
+                        <div
+                          className={cn(
+                            "p-3 rounded-lg",
+                            "bg-white/[0.03]",
+                            "ring-1 ring-white/[0.08]",
+                            "group-hover:ring-white/[0.15]",
+                            "transition-all duration-700"
+                          )}
+                        >
+                          <service.icon className="w-5 h-5 text-white/90" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-[17px] font-medium text-white tracking-tight">
+                              {service.title}
+                            </h3>
+                            {/* Badge Popular */}
+                            {index === 2 && (
+                              <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className={cn(
+                                  "relative px-2 py-0.5",
+                                  "bg-emerald-500/10",
+                                  "border-l-2 border-emerald-500/50",
+                                  "overflow-hidden"
+                                )}
+                              >
+                                <motion.div
+                                  className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/20 to-emerald-500/0"
+                                  animate={{
+                                    x: ["0%", "200%"],
+                                  }}
+                                  transition={{
+                                    duration: 2,
+                                    ease: "easeInOut",
+                                    repeat: Infinity,
+                                    repeatDelay: 1,
+                                  }}
+                                />
+                                <span className="relative text-[11px] font-medium text-emerald-400/90 tracking-wider">
+                                  Popular
+                                </span>
+                              </motion.div>
+                            )}
+                          </div>
+                          <p className="text-[13px] text-white/70 font-light leading-relaxed">
+                            {service.description}
+                          </p>
+                        </div>
+                      </div>
+                      {/* Key Features */}
+                      <ul
+                        className={cn(
+                          "space-y-4", // Aumentato da space-y-3
+                          index === 2
+                            ? "md:grid md:grid-cols-2 md:gap-6 md:space-y-0"
+                            : "" // Aumentato gap
+                        )}
+                      >
+                        {service.features.split("\n").map((feature, i) => (
+                          <li key={i} className="flex items-start gap-4">
+                            {" "}
+                            {/* Aumentato gap */}
+                            <Check className="w-4 h-4 text-white/50 mt-1 shrink-0" />{" "}
+                            {/* Aumentato margin-top */}
+                            <span className="text-[13px] text-white/70 font-light leading-relaxed">
+                              {feature.trim()}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="px-8 pb-8 pt-3">
+                      {" "}
+                      {/* Aumentato padding */}
+                      <Button
+                        className={cn(
+                          "w-full h-[42px]",
+                          "bg-white/[0.02]",
+                          "text-white/80 hover:text-white", // Aumentata opacità
+                          "border border-white/[0.08]",
+                          "hover:border-white/[0.15]",
+                          "transition-all duration-700",
+                          "font-light text-[13px]",
+                          index === 2 ? "md:max-w-xs md:mx-auto" : ""
+                        )}
+                        variant="outline"
+                        asChild
+                      >
+                        <a
+                          href={`https://wa.me/${DATA.contact.tel.replace(
+                            /[^0-9]/g,
+                            ""
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center gap-2"
+                        >
+                          <span>Get Started</span>
+                          <motion.div
+                            animate={{ x: [0, 4, 0] }}
+                            transition={{ repeat: Infinity, duration: 1.5 }}
+                            className="opacity-50 group-hover:opacity-70 transition-opacity duration-700"
+                          >
+                            →
+                          </motion.div>
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-
-          {/* Scrollbar personalizzata migliorata */}
-          <motion.div
-            className="fixed right-0 top-0 bottom-0 w-[3px] md:w-[5px] bg-black/5" // Modificato positioning e dimensioni
-            style={{
-              backgroundImage:
-                "linear-gradient(to bottom, transparent, transparent)",
-            }}
-          >
-            <motion.div
-              className="absolute top-0 left-0 w-full origin-top rounded-full"
-              style={{
-                scaleY: scrollYProgress,
-                height: "100%",
-                background: "hsl(var(--primary))",
-                opacity: 0.3,
-              }}
-            />
-          </motion.div>
         </div>
       </section>
       {/* Contact Section */}
-      <section id="contact">
+      <section id="contact" className="py-20">
+        {" "}
+        {/* Uniformato anche questa */}
         <div className="grid items-center justify-center gap-4 px-4 text-center md:px-6 w-full py-12">
           <BlurFade delay={BLUR_FADE_DELAY * 13}>
             <div className="space-y-3">

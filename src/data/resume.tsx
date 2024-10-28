@@ -617,41 +617,40 @@ export const DATA = {
   ],
   services: [
     {
-      title: "Web Development Tutoring",
+      title: "React Development",
       icon: Code2,
-      description:
-        "Master modern web development through personalized 1-on-1 sessions",
-      features:
-        "Let's design a learning journey tailored just for you, focusing on modern technologies like **React** and **Next.js**. I'll be your guide every step of the way, sharing insights and best practices while we build real projects together.",
+      description: "Modern web applications with React ecosystem",
+      features: [
+        "Next.js & React applications",
+        "Server-side rendering (SSR)",
+        "Complex state management",
+        "Performance optimization",
+        "API integration & development",
+      ].join("\n"),
     },
     {
-      title: "Mobile Development",
+      title: "Flutter Development",
+      icon: Smartphone,
+      description: "Cross-platform mobile applications",
+      features: [
+        "iOS & Android development",
+        "Custom UI/UX implementation",
+        "Native features integration",
+        "App Store deployment",
+        "Performance optimization",
+      ].join("\n"),
+    },
+    {
+      title: "Technical Mentoring",
       icon: GraduationCap,
-      description: "Build professional mobile applications for iOS and Android",
-      features:
-        "Let's explore mobile development together using **Flutter**, creating beautiful cross-platform applications. We'll start from your current level and work towards building professional apps that perform flawlessly on both iOS and Android.",
-    },
-    {
-      title: "Startup Project Development",
-      icon: Rocket,
-      description:
-        "Turn your startup idea into a polished, production-ready product",
-      features:
-        "I'll be your technical partner in bringing your startup idea to life. Together we'll plan the perfect architecture for your project and create an MVP that will impress both users and investors. You won't have to figure it out alone.",
-    },
-    {
-      title: "Enterprise Solutions",
-      icon: Building2,
-      description: "Scale your business with custom enterprise solutions",
-      features:
-        "Let's collaborate to enhance your company's digital infrastructure. Whether you need to modernize legacy systems or develop new enterprise-grade applications, I'll work closely with your team to deliver scalable, secure, and maintainable solutions that drive your business forward.",
-    },
-    {
-      title: "Maintenance & Evolution",
-      icon: Settings,
-      description: "Keep your applications up-to-date and evolving",
-      features:
-        "I'll help maintain and evolve your existing applications, whether they need performance improvements, new features, or modernization. Together we'll ensure your software stays current, secure, and aligned with your growing business needs.",
+      description: "React & Flutter guidance for developers",
+      features: [
+        "One-on-one React & Next.js mentoring",
+        "Flutter development guidance",
+        "Architecture & best practices",
+        "Code reviews & optimization",
+        "Career development support",
+      ].join("\n"),
     },
   ],
 } as const;
