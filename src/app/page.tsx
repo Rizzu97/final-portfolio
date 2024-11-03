@@ -19,6 +19,92 @@ import { useEffect, useState } from "react"; // Aggiungiamo questi import
 
 const BLUR_FADE_DELAY = 0.04;
 
+const PromoButton = () => (
+  <>
+    {/* Desktop version */}
+    <motion.a
+      href="https://rizzuconsult.gumroad.com/l/fbfgyx"
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, x: 100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 1, duration: 0.5 }}
+      className={cn(
+        "fixed bottom-24 right-4 z-50",
+        "hidden md:flex items-center gap-3 px-6 py-3.5",
+        "rounded-full",
+        "bg-[#1A1A1A]",
+        "border border-white/[0.08]",
+        "text-white/90",
+        "shadow-xl shadow-black/20",
+        "transition-all duration-500",
+        "hover:scale-[1.02] hover:border-white/[0.12]",
+        "group"
+      )}
+    >
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/[0.03] to-white/[0.01]" />
+      <div className="relative flex items-center gap-3">
+        <Code2 className="w-4 h-4 text-white/70" />
+        <span className="text-sm font-medium tracking-wide">
+          Get my latest portfolio template ⚡️
+        </span>
+        <motion.span
+          animate={{ x: [0, 4, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          className="text-white/50 group-hover:text-white/70"
+        >
+          →
+        </motion.span>
+      </div>
+    </motion.a>
+
+    {/* Versione mobile migliorata con più dettagli */}
+    <motion.a
+      href="https://rizzuconsult.gumroad.com/l/fbfgyx"
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1, duration: 0.5 }}
+      className={cn(
+        "fixed bottom-24 right-4 z-50",
+        "md:hidden flex items-center gap-2",
+        "px-4 py-2.5",
+        "rounded-full",
+        "bg-[#1A1A1A]",
+        "border border-white/[0.08]",
+        "text-white/90",
+        "shadow-xl shadow-black/20",
+        "transition-all duration-300",
+        "active:scale-95",
+        "group"
+      )}
+    >
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/[0.03] to-white/[0.01]" />
+      <div className="relative flex items-center gap-2">
+        <div className="flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.06]">
+          <Code2 className="w-3 h-3 text-white/80" />
+        </div>
+        <div className="flex flex-col items-start -space-y-0.5">
+          <span className="text-[10px] text-emerald-400/90 font-medium tracking-wide">
+            Available now
+          </span>
+          <span className="text-[13px] font-medium tracking-tight">
+            Dev Portfolio (Next.js 14) ⚡️
+          </span>
+        </div>
+        <motion.span
+          animate={{ x: [0, 2, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+          className="text-white/60 text-xs ml-0.5"
+        >
+          →
+        </motion.span>
+      </div>
+    </motion.a>
+  </>
+);
+
 export default function Page() {
   const { scrollYProgress } = useScroll();
   const [isMounted, setIsMounted] = useState(false);
@@ -60,8 +146,7 @@ export default function Page() {
 
   return (
     <main className="flex flex-col min-h-[100dvh] relative overflow-x-hidden">
-      {" "}
-      {/* Aggiunto relative */}
+      <PromoButton />
       {/* Hero Section */}
       <section
         id="hero"
